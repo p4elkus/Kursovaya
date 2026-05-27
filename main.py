@@ -6,12 +6,10 @@ import os
 
 pygame.init()
 
-# ==========================================
-# 1. СОВРЕМЕННАЯ ПАЛИТРА И НАСТРОЙКИ (MIDNIGHT & NEON)
-# ==========================================
+
 windowWidth, windowHeight = 1600, 900
 displayScreen = pygame.display.set_mode((windowWidth, windowHeight))
-pygame.display.set_caption("F1 Workspace 2026")
+pygame.display.set_caption("Календарь")
 
 colorBackgroundApp = (11, 12, 16)
 colorBackgroundPanel = (21, 22, 28)
@@ -23,10 +21,13 @@ colorTextWhite = (255, 255, 255)
 colorTextMuted = (140, 142, 155)
 colorTextDark = (80, 82, 95)
 
+
 colorF1 = (255, 40, 0)
 colorF1Dim = (50, 15, 15)
 colorBlue = (0, 229, 255)
 colorBlueDim = (10, 45, 55)
+colorFifa = (0, 210, 106)
+colorFifaDim = (0, 50, 25)
 
 fontName = pygame.font.match_font(['inter', 'helvetica neue', 'segoe ui', 'roboto', 'arial'])
 fontLogo = pygame.font.Font(fontName, 28)
@@ -47,11 +48,7 @@ listMonthsGenitive = ["", "января", "февраля", "марта", "ап�
                       "июля", "августа", "сентября", "октября", "ноября", "декабря"]
 listWeekdays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
 
-# ==========================================
-# 2. ДАННЫЕ F1 2026 И СОХРАНЕНИЕ ЗАМЕТОК
-# ==========================================
 dataFile = "events.json"
-
 
 def loadEvents():
     if os.path.exists(dataFile):
@@ -63,12 +60,10 @@ def loadEvents():
             return {}
     return {}
 
-
 def saveEvents(eventsDictionary):
     dictionaryData = {f"{key[0]}-{key[1]}-{key[2]}": value for key, value in eventsDictionary.items()}
     with open(dataFile, "w", encoding="utf-8") as fileObject:
         json.dump(dictionaryData, fileObject, ensure_ascii=False, indent=4)
-
 
 f1Schedule = {
     (2026, 3): {
@@ -78,8 +73,7 @@ f1Schedule = {
     },
     (2026, 4): {
         10: ["Практика 1", "Практика 2 (Бахрейн)"], 11: ["Практика 3", "Квалификация"], 12: ["Гонка: Бахрейн"],
-        17: ["Практика 1", "Практика 2 (Саудовская Аравия)"], 18: ["Практика 3", "Квалификация"],
-        19: ["Гонка: Саудовская Аравия"]
+        17: ["Практика 1", "Практика 2 (Саудовская Аравия)"], 18: ["Практика 3", "Квалификация"], 19: ["Гонка: Саудовская Аравия"]
     },
     (2026, 5): {
         1: ["Практика 1", "Квал-я к спринту (Майами)"], 2: ["Спринт", "Основная квалификация"], 3: ["Гонка: Майами"],
@@ -88,12 +82,10 @@ f1Schedule = {
     (2026, 6): {
         5: ["Практика 1", "Практика 2 (Монако)"], 6: ["Практика 3", "Квалификация"], 7: ["Гонка: Монако"],
         12: ["Практика 1", "Практика 2 (Испания)"], 13: ["Практика 3", "Квалификация"], 14: ["Гонка: Испания"],
-        26: ["Практика 1", "Квал-я к спринту (Австрия)"], 27: ["Спринт", "Основная квалификация"],
-        28: ["Гонка: Австрия"]
+        26: ["Практика 1", "Квал-я к спринту (Австрия)"], 27: ["Спринт", "Основная квалификация"], 28: ["Гонка: Австрия"]
     },
     (2026, 7): {
-        3: ["Практика 1", "Практика 2 (Великобритания)"], 4: ["Практика 3", "Квалификация"],
-        5: ["Гонка: Великобритания"],
+        3: ["Практика 1", "Практика 2 (Великобритания)"], 4: ["Практика 3", "Квалификация"], 5: ["Гонка: Великобритания"],
         17: ["Практика 1", "Практика 2 (Бельгия)"], 18: ["Практика 3", "Квалификация"], 19: ["Гонка: Бельгия"],
         24: ["Практика 1", "Практика 2 (Венгрия)"], 25: ["Практика 3", "Квалификация"], 26: ["Гонка: Венгрия"]
     },
@@ -112,8 +104,7 @@ f1Schedule = {
     },
     (2026, 11): {
         1: ["Гонка: Мексика"],
-        6: ["Практика 1", "Квал-я к спринту (Бразилия)"], 7: ["Спринт", "Основная квалификация"],
-        8: ["Гонка: Бразилия"],
+        6: ["Практика 1", "Квал-я к спринту (Бразилия)"], 7: ["Спринт", "Основная квалификация"], 8: ["Гонка: Бразилия"],
         19: ["Практика 1", "Практика 2 (Лас-Вегас)"], 20: ["Практика 3", "Квалификация"], 21: ["Гонка: Лас-Вегас"],
         27: ["Практика 1", "Квал-я к спринту (Катар)"], 28: ["Спринт", "Основная квалификация"], 29: ["Гонка: Катар"]
     },
@@ -122,28 +113,39 @@ f1Schedule = {
     }
 }
 
+fifaSchedule = {
+    (2026, 6): {
+        11: ["Матч открытия (Мехико)"],
+        12: ["Групповой этап"], 13: ["Групповой этап"], 14: ["Групповой этап"], 15: ["Групповой этап"],
+        16: ["Групповой этап"], 17: ["Групповой этап"], 18: ["Групповой этап"], 19: ["Групповой этап"],
+        20: ["Групповой этап"], 21: ["Групповой этап"], 22: ["Групповой этап"], 23: ["Групповой этап"],
+        24: ["Групповой этап"], 25: ["Групповой этап"], 26: ["Групповой этап"], 27: ["Групповой этап"],
+        28: ["1/16 финала"], 29: ["1/16 финала"], 30: ["1/16 финала"]
+    },
+    (2026, 7): {
+        1: ["1/16 финала"], 2: ["1/16 финала"], 3: ["1/16 финала"],
+        4: ["1/8 финала"], 5: ["1/8 финала"], 6: ["1/8 финала"], 7: ["1/8 финала"],
+        9: ["1/4 финала"], 10: ["1/4 финала"], 11: ["1/4 финала"],
+        14: ["Полуфинал"], 15: ["Полуфинал"],
+        18: ["Матч за 3-е место (Майами)"],
+        19: ["Финал (Нью-Йорк / Нью-Джерси)"]
+    }
+}
+
 userEvents = loadEvents()
 
-
-# ==========================================
-# 3. ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-# ==========================================
 
 def drawRoundedRect(surfaceObject, colorValue, rectangleObject, radiusValue=12, widthValue=0):
     pygame.draw.rect(surfaceObject, colorValue, rectangleObject, border_radius=radiusValue, width=widthValue)
 
-
 def drawPanel(surfaceObject, rectangleObject, radiusValue=20):
     shadowOffset = 8
-    shadowSurface = pygame.Surface((rectangleObject.w + shadowOffset * 2, rectangleObject.h + shadowOffset * 2),
-                                   pygame.SRCALPHA)
-    pygame.draw.rect(shadowSurface, (0, 0, 0, 40), (shadowOffset, shadowOffset, rectangleObject.w, rectangleObject.h),
-                     border_radius=radiusValue)
+    shadowSurface = pygame.Surface((rectangleObject.w + shadowOffset * 2, rectangleObject.h + shadowOffset * 2), pygame.SRCALPHA)
+    pygame.draw.rect(shadowSurface, (0, 0, 0, 40), (shadowOffset, shadowOffset, rectangleObject.w, rectangleObject.h), border_radius=radiusValue)
     surfaceObject.blit(shadowSurface, (rectangleObject.x - shadowOffset, rectangleObject.y - shadowOffset + 5))
 
     drawRoundedRect(surfaceObject, colorBackgroundPanel, rectangleObject, radiusValue)
     drawRoundedRect(surfaceObject, colorBorderLine, rectangleObject, radiusValue, 1)
-
 
 def drawPillBadge(surfaceObject, textString, positionX, positionY, backgroundColor, textColor):
     textSurface = fontTiny.render(textString.upper(), True, textColor)
@@ -156,11 +158,6 @@ def drawPillBadge(surfaceObject, textString, positionX, positionY, backgroundCol
 
     surfaceObject.blit(textSurface, textSurface.get_rect(center=badgeRectangle.center))
     return badgeRectangle.height
-
-
-# ==========================================
-# 4. ОТРИСОВКА ИНТЕРФЕЙСА С УЧЕТОМ ВАКЛАДОК
-# ==========================================
 
 def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosition, inputActive, userText, activeTab):
     displayScreen.fill(colorBackgroundApp)
@@ -175,31 +172,27 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
     rectangleCentral = pygame.Rect(rectangleMenu.right + paddingValue, paddingValue, widthMiddle, panelHeight)
     rectangleRightPanel = pygame.Rect(rectangleCentral.right + paddingValue, paddingValue, widthRight, panelHeight)
 
-    # ---------------------------------------------------------
-    # ЛЕВОЕ МЕНЮ (Рисуется всегда)
-    # ---------------------------------------------------------
     drawPanel(displayScreen, rectangleMenu)
 
-    pygame.draw.circle(displayScreen, colorF1, (rectangleMenu.x + 35, rectangleMenu.y + 50), 8)
-    logoSurface = fontLogo.render("F1 HUB", True, colorTextWhite)
+    pygame.draw.circle(displayScreen, colorF1, (rectangleMenu.x + 35, rectangleMenu.y + 45), 8)
+    pygame.draw.circle(displayScreen, colorFifa, (rectangleMenu.x + 35, rectangleMenu.y + 65), 8)
+    logoSurface = fontLogo.render("HUB 2026", True, colorTextWhite)
     displayScreen.blit(logoSurface, (rectangleMenu.x + 55, rectangleMenu.y + 35))
 
-    pygame.draw.line(displayScreen, colorBorderLine, (rectangleMenu.x + 24, rectangleMenu.y + 90),
-                     (rectangleMenu.right - 24, rectangleMenu.y + 90), 1)
+    pygame.draw.line(displayScreen, colorBorderLine, (rectangleMenu.x + 24, rectangleMenu.y + 100),
+                     (rectangleMenu.right - 24, rectangleMenu.y + 100), 1)
 
-    # УДАЛЕНА КНОПКА "Настройки"
-    listMenuNames = ["Календарь", "Сезон 2026", "Мои Заметки"]
+    listMenuNames = ["Календарь", "Сезон 2026", "ЧМ 2026", "Мои Заметки"]
     listMenuRectangles = []
 
-    positionY = rectangleMenu.y + 120
+    positionY = rectangleMenu.y + 130
     for itemText in listMenuNames:
         itemRectangle = pygame.Rect(rectangleMenu.x + 16, positionY, widthLeft - 32, 48)
         isActive = (itemText == activeTab)
 
         if isActive:
             drawRoundedRect(displayScreen, colorBackgroundHover, itemRectangle, 12)
-            pygame.draw.rect(displayScreen, colorBlue, (itemRectangle.x + 12, itemRectangle.y + 14, 4, 20),
-                             border_radius=2)
+            pygame.draw.rect(displayScreen, colorBlue, (itemRectangle.x + 12, itemRectangle.y + 14, 4, 20), border_radius=2)
             currentColor = colorTextWhite
             offsetX = 32
         else:
@@ -215,16 +208,13 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
         listMenuRectangles.append((itemRectangle, itemText))
         positionY += 56
 
-    # --- ПЕРЕМЕННЫЕ ДЛЯ ВОЗВРАТА (чтобы клики не ломались на других вкладках) ---
     buttonLeft = None
     buttonRight = None
     listDayButtons = []
     rectangleInput = None
     listDeleteButtons = []
 
-    # ---------------------------------------------------------
-    # ВКЛАДКА: КАЛЕНДАРЬ
-    # ---------------------------------------------------------
+
     if activeTab == "Календарь":
         drawPanel(displayScreen, rectangleCentral)
 
@@ -239,8 +229,7 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
         for buttonObject, listPoints in [(buttonLeft, [(-4, 0), (4, -6), (4, 6)]),
                                          (buttonRight, [(4, 0), (-4, -6), (-4, 6)])]:
             isHover = buttonObject.collidepoint(mousePosition)
-            drawRoundedRect(displayScreen, colorBackgroundHover if isHover else colorBackgroundCell, buttonObject,
-                            buttonSize // 2)
+            drawRoundedRect(displayScreen, colorBackgroundHover if isHover else colorBackgroundCell, buttonObject, buttonSize // 2)
             drawRoundedRect(displayScreen, colorBorderLine, buttonObject, buttonSize // 2, 1)
             centerX, centerY = buttonObject.center
             realPoints = [(centerX + pointX, centerY + pointY) for pointX, pointY in listPoints]
@@ -257,6 +246,7 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
 
         calendarData = calendar.monthcalendar(currentYear, currentMonth)
         currentF1Events = f1Schedule.get((currentYear, currentMonth), {})
+        currentFifaEvents = fifaSchedule.get((currentYear, currentMonth), {})
 
         for indexRow, currentWeek in enumerate(calendarData):
             for indexColumn, numberDay in enumerate(currentWeek):
@@ -264,8 +254,7 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
                                             gridPositionY + indexRow * cellHeight + 6, cellWidth - 12, cellHeight - 12)
 
                 if numberDay != 0:
-                    isToday = (
-                                numberDay == dateToday.day and currentMonth == dateToday.month and currentYear == dateToday.year)
+                    isToday = (numberDay == dateToday.day and currentMonth == dateToday.month and currentYear == dateToday.year)
                     isSelected = (selectedDay == numberDay)
                     isHover = cellRectangle.collidepoint(mousePosition)
 
@@ -273,8 +262,7 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
                         drawRoundedRect(displayScreen, colorBlueDim, cellRectangle, 16)
                         drawRoundedRect(displayScreen, colorBlue, cellRectangle, 16, 2)
                     else:
-                        drawRoundedRect(displayScreen, colorBackgroundHover if isHover else colorBackgroundCell,
-                                        cellRectangle, 16)
+                        drawRoundedRect(displayScreen, colorBackgroundHover if isHover else colorBackgroundCell, cellRectangle, 16)
                         drawRoundedRect(displayScreen, colorBorderLine, cellRectangle, 16, 1)
 
                     if isSelected and not isToday:
@@ -284,44 +272,40 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
                     numberSurface = fontMid.render(str(numberDay), True, colorNumber)
                     displayScreen.blit(numberSurface, (cellRectangle.x + 16, cellRectangle.y + 12))
 
-                    tagPositionY = cellRectangle.y + 48
+                    tagPositionY = cellRectangle.y + 44
 
                     if numberDay in currentF1Events:
-                        tagHeight = drawPillBadge(displayScreen, "F1 Сессия", cellRectangle.x + 16, tagPositionY,
-                                                  colorF1Dim, colorF1)
-                        tagPositionY += tagHeight + 8
+                        tagHeight = drawPillBadge(displayScreen, "F1 Сессия", cellRectangle.x + 16, tagPositionY, colorF1Dim, colorF1)
+                        tagPositionY += tagHeight + 6
+
+                    if numberDay in currentFifaEvents:
+                        tagHeight = drawPillBadge(displayScreen, "ЧМ 2026", cellRectangle.x + 16, tagPositionY, colorFifaDim, colorFifa)
+                        tagPositionY += tagHeight + 6
 
                     listUserEntries = userEvents.get((currentYear, currentMonth, numberDay), [])
                     if listUserEntries:
                         countText = f"{len(listUserEntries)} Заметк{'а' if len(listUserEntries) == 1 else 'и'}"
-                        drawPillBadge(displayScreen, countText, cellRectangle.x + 16, tagPositionY, colorBlueDim,
-                                      colorBlue)
+                        drawPillBadge(displayScreen, countText, cellRectangle.x + 16, tagPositionY, colorBlueDim, colorBlue)
 
                     listDayButtons.append((cellRectangle, numberDay))
 
-        # ПРАВАЯ ПАНЕЛЬ ДЛЯ КАЛЕНДАРЯ
         drawPanel(displayScreen, rectangleRightPanel)
 
         if selectedDay:
             numberLargeSurface = fontTitle.render(str(selectedDay), True, colorTextWhite)
-            monthLargeSurface = fontMid.render(f"{listMonthsGenitive[currentMonth]} {currentYear}", True,
-                                               colorTextMuted)
+            monthLargeSurface = fontMid.render(f"{listMonthsGenitive[currentMonth]} {currentYear}", True, colorTextMuted)
 
-            isTodaySelected = (
-                        selectedDay == dateToday.day and currentMonth == dateToday.month and currentYear == dateToday.year)
+            isTodaySelected = (selectedDay == dateToday.day and currentMonth == dateToday.month and currentYear == dateToday.year)
             if isTodaySelected:
-                drawPillBadge(displayScreen, "СЕГОДНЯ", rectangleRightPanel.x + 32, rectangleRightPanel.y + 35,
-                              colorBlueDim, colorBlue)
+                drawPillBadge(displayScreen, "СЕГОДНЯ", rectangleRightPanel.x + 32, rectangleRightPanel.y + 35, colorBlueDim, colorBlue)
                 offsetPositionY = rectangleRightPanel.y + 65
             else:
                 offsetPositionY = rectangleRightPanel.y + 35
 
             displayScreen.blit(numberLargeSurface, (rectangleRightPanel.x + 32, offsetPositionY))
-            displayScreen.blit(monthLargeSurface,
-                               (rectangleRightPanel.x + 32 + numberLargeSurface.get_width() + 10, offsetPositionY + 12))
+            displayScreen.blit(monthLargeSurface, (rectangleRightPanel.x + 32 + numberLargeSurface.get_width() + 10, offsetPositionY + 12))
 
-            pygame.draw.line(displayScreen, colorBorderLine, (rectangleRightPanel.x + 32, offsetPositionY + 60),
-                             (rectangleRightPanel.right - 32, offsetPositionY + 60), 1)
+            pygame.draw.line(displayScreen, colorBorderLine, (rectangleRightPanel.x + 32, offsetPositionY + 60), (rectangleRightPanel.right - 32, offsetPositionY + 60), 1)
             contentPositionY = offsetPositionY + 85
 
             if selectedDay in currentF1Events:
@@ -332,12 +316,25 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
                 for sessionText in currentF1Events[selectedDay]:
                     cardRectangle = pygame.Rect(rectangleRightPanel.x + 32, contentPositionY, widthRight - 64, 48)
                     drawRoundedRect(displayScreen, colorBackgroundApp, cardRectangle, 12)
-                    pygame.draw.rect(displayScreen, colorF1, (cardRectangle.x, cardRectangle.y + 10, 4, 28),
-                                     border_radius=2)
+                    pygame.draw.rect(displayScreen, colorF1, (cardRectangle.x, cardRectangle.y + 10, 4, 28), border_radius=2)
                     sessionSurface = fontBody.render(sessionText, True, colorTextWhite)
                     displayScreen.blit(sessionSurface, (cardRectangle.x + 16, cardRectangle.y + 14))
-                    contentPositionY += 56
-                contentPositionY += 16
+                    contentPositionY += 52
+                contentPositionY += 12
+
+            if selectedDay in currentFifaEvents:
+                labelSurface = fontSmall.render("ФУТБОЛ ЧМ 2026", True, colorFifa)
+                displayScreen.blit(labelSurface, (rectangleRightPanel.x + 32, contentPositionY))
+                contentPositionY += 25
+
+                for sessionText in currentFifaEvents[selectedDay]:
+                    cardRectangle = pygame.Rect(rectangleRightPanel.x + 32, contentPositionY, widthRight - 64, 48)
+                    drawRoundedRect(displayScreen, colorBackgroundApp, cardRectangle, 12)
+                    pygame.draw.rect(displayScreen, colorFifa, (cardRectangle.x, cardRectangle.y + 10, 4, 28), border_radius=2)
+                    sessionSurface = fontBody.render(sessionText, True, colorTextWhite)
+                    displayScreen.blit(sessionSurface, (cardRectangle.x + 16, cardRectangle.y + 14))
+                    contentPositionY += 52
+                contentPositionY += 12
 
             listUserEntries = userEvents.get((currentYear, currentMonth, selectedDay), [])
             labelNotesSurface = fontSmall.render("ЗАМЕТКИ", True, colorBlue)
@@ -348,63 +345,47 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
                 for indexEntry, stringEntry in enumerate(listUserEntries):
                     cardRectangle = pygame.Rect(rectangleRightPanel.x + 32, contentPositionY, widthRight - 64, 48)
                     isHover = cardRectangle.collidepoint(mousePosition)
-                    drawRoundedRect(displayScreen, colorBackgroundHover if isHover else colorBackgroundApp,
-                                    cardRectangle, 12)
+                    drawRoundedRect(displayScreen, colorBackgroundHover if isHover else colorBackgroundApp, cardRectangle, 12)
                     if isHover: drawRoundedRect(displayScreen, colorBorderLine, cardRectangle, 12, 1)
-                    pygame.draw.rect(displayScreen, colorBlue, (cardRectangle.x, cardRectangle.y + 10, 4, 28),
-                                     border_radius=2)
+                    pygame.draw.rect(displayScreen, colorBlue, (cardRectangle.x, cardRectangle.y + 10, 4, 28), border_radius=2)
 
-                    displayText = stringEntry if fontBody.size(stringEntry)[
-                                                     0] < cardRectangle.width - 50 else stringEntry[:22] + "..."
+                    displayText = stringEntry if fontBody.size(stringEntry)[0] < cardRectangle.width - 50 else stringEntry[:22] + "..."
                     textSurface = fontBody.render(displayText, True, colorTextWhite)
                     displayScreen.blit(textSurface, (cardRectangle.x + 16, cardRectangle.y + 14))
 
                     deleteRectangle = pygame.Rect(cardRectangle.right - 36, cardRectangle.y + 14, 20, 20)
                     if isHover:
                         deleteColor = colorF1 if deleteRectangle.collidepoint(mousePosition) else colorTextMuted
-                        pygame.draw.line(displayScreen, deleteColor,
-                                         (deleteRectangle.left + 4, deleteRectangle.top + 4),
-                                         (deleteRectangle.right - 4, deleteRectangle.bottom - 4), 2)
-                        pygame.draw.line(displayScreen, deleteColor,
-                                         (deleteRectangle.right - 4, deleteRectangle.top + 4),
-                                         (deleteRectangle.left + 4, deleteRectangle.bottom - 4), 2)
+                        pygame.draw.line(displayScreen, deleteColor, (deleteRectangle.left + 4, deleteRectangle.top + 4), (deleteRectangle.right - 4, deleteRectangle.bottom - 4), 2)
+                        pygame.draw.line(displayScreen, deleteColor, (deleteRectangle.right - 4, deleteRectangle.top + 4), (deleteRectangle.left + 4, deleteRectangle.bottom - 4), 2)
                     listDeleteButtons.append((deleteRectangle, indexEntry))
-                    contentPositionY += 56
+                    contentPositionY += 52
             else:
                 emptySurface = fontBody.render("Записей пока нет", True, colorTextDark)
                 displayScreen.blit(emptySurface, (rectangleRightPanel.x + 32, contentPositionY))
 
-            rectangleInput = pygame.Rect(rectangleRightPanel.x + 32, rectangleRightPanel.bottom - 80, widthRight - 64,
-                                         48)
+            rectangleInput = pygame.Rect(rectangleRightPanel.x + 32, rectangleRightPanel.bottom - 80, widthRight - 64, 48)
             drawRoundedRect(displayScreen, colorBackgroundApp, rectangleInput, 24)
-            drawRoundedRect(displayScreen, colorBlue if inputActive else colorBorderLine, rectangleInput, 24,
-                            2 if inputActive else 1)
+            drawRoundedRect(displayScreen, colorBlue if inputActive else colorBorderLine, rectangleInput, 24, 2 if inputActive else 1)
 
             hintText = "Добавить запись (Enter)..." if not userText and not inputActive else userText
             textColor = colorTextWhite if userText else colorTextMuted
-            displayHintText = hintText if fontBody.size(hintText)[0] < rectangleInput.width - 40 else "..." + hintText[
-                                                                                                              -25:]
-            displayScreen.blit(fontBody.render(displayHintText, True, textColor),
-                               (rectangleInput.x + 20, rectangleInput.y + 14))
+            displayHintText = hintText if fontBody.size(hintText)[0] < rectangleInput.width - 40 else "..." + hintText[-25:]
+            displayScreen.blit(fontBody.render(displayHintText, True, textColor), (rectangleInput.x + 20, rectangleInput.y + 14))
 
         else:
             messageSurface = fontMid.render("Выберите дату", True, colorTextWhite)
             subtitleSurface = fontBody.render("чтобы увидеть расписание", True, colorTextMuted)
-            displayScreen.blit(messageSurface, messageSurface.get_rect(
-                center=(rectangleRightPanel.centerx, rectangleRightPanel.centery - 10)))
-            displayScreen.blit(subtitleSurface, subtitleSurface.get_rect(
-                center=(rectangleRightPanel.centerx, rectangleRightPanel.centery + 20)))
+            displayScreen.blit(messageSurface, messageSurface.get_rect(center=(rectangleRightPanel.centerx, rectangleRightPanel.centery - 10)))
+            displayScreen.blit(subtitleSurface, subtitleSurface.get_rect(center=(rectangleRightPanel.centerx, rectangleRightPanel.centery + 20)))
 
-    # ---------------------------------------------------------
-    # ВКЛАДКА: СЕЗОН 2026
-    # ---------------------------------------------------------
     elif activeTab == "Сезон 2026":
         drawPanel(displayScreen, rectangleCentral)
         headerSurface = fontTitle.render("Гран-при Формулы 1 (2026)", True, colorTextWhite)
         displayScreen.blit(headerSurface, (rectangleCentral.x + 40, rectangleCentral.y + 35))
 
         drawPanel(displayScreen, rectangleRightPanel)
-        rightHeader = fontTitle.render("Статистика", True, colorTextWhite)
+        rightHeader = fontTitle.render("Статистика F1", True, colorTextWhite)
         displayScreen.blit(rightHeader, (rectangleRightPanel.x + 32, rectangleRightPanel.y + 35))
 
         listAllRaces = []
@@ -421,7 +402,6 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
         positionY = rectangleCentral.y + 110
         columnWidth = (rectangleCentral.w - 100) // 2
 
-        # Отрисовка гонок в 2 колонки
         for indexValue, raceItem in enumerate(listAllRaces):
             currentX = positionX if indexValue < 12 else positionX + columnWidth + 20
             currentY = positionY + (indexValue % 12) * 56
@@ -438,13 +418,53 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
             raceSurface = fontBody.render(raceName, True, colorTextWhite)
             displayScreen.blit(raceSurface, (cardRectangle.x + 80, cardRectangle.y + 14))
 
-        # Статистика в правой панели
         statsSurface1 = fontBody.render(f"Всего этапов: {len(listAllRaces)}", True, colorTextWhite)
         displayScreen.blit(statsSurface1, (rectangleRightPanel.x + 32, rectangleRightPanel.y + 110))
 
-    # ---------------------------------------------------------
-    # ВКЛАДКА: МОИ ЗАМЕТКИ
-    # ---------------------------------------------------------
+    elif activeTab == "ЧМ 2026":
+        drawPanel(displayScreen, rectangleCentral)
+        headerSurface = fontTitle.render("Чемпионат мира по футболу 2026", True, colorTextWhite)
+        displayScreen.blit(headerSurface, (rectangleCentral.x + 40, rectangleCentral.y + 35))
+
+        drawPanel(displayScreen, rectangleRightPanel)
+        rightHeader = fontTitle.render("Главные этапы", True, colorTextWhite)
+        displayScreen.blit(rightHeader, (rectangleRightPanel.x + 32, rectangleRightPanel.y + 35))
+
+        listAllMatches = []
+        for monthKey, daysDictionary in fifaSchedule.items():
+            yearValue, monthValue = monthKey
+            for dayValue, sessionsList in daysDictionary.items():
+                for sessionString in sessionsList:
+                    if "Групповой" not in sessionString:  # Оставляем только важные матчи (плей-офф) для сетки
+                        listAllMatches.append((monthValue, dayValue, sessionString))
+
+        listAllMatches.sort(key=lambda item: (item[0], item[1]))
+
+        positionX = rectangleCentral.x + 40
+        positionY = rectangleCentral.y + 110
+        columnWidth = (rectangleCentral.w - 100) // 2
+
+        for indexValue, matchItem in enumerate(listAllMatches):
+            currentX = positionX if indexValue < 10 else positionX + columnWidth + 20
+            currentY = positionY + (indexValue % 10) * 56
+
+            cardRectangle = pygame.Rect(currentX, currentY, columnWidth, 48)
+            drawRoundedRect(displayScreen, colorBackgroundCell, cardRectangle, 12)
+            pygame.draw.rect(displayScreen, colorFifa, (cardRectangle.x, cardRectangle.y + 10, 4, 28), border_radius=2)
+
+            dateString = f"{matchItem[1]:02d}.{matchItem[0]:02d}"
+            dateSurface = fontBody.render(dateString, True, colorTextMuted)
+            displayScreen.blit(dateSurface, (cardRectangle.x + 16, cardRectangle.y + 14))
+
+            matchSurface = fontBody.render(matchItem[2], True, colorTextWhite)
+            displayScreen.blit(matchSurface, (cardRectangle.x + 80, cardRectangle.y + 14))
+
+        statsSurface1 = fontBody.render("Всего матчей турнира: 104", True, colorTextWhite)
+        statsSurface2 = fontBody.render("США, Канада, Мексика", True, colorTextMuted)
+        displayScreen.blit(statsSurface1, (rectangleRightPanel.x + 32, rectangleRightPanel.y + 110))
+        displayScreen.blit(statsSurface2, (rectangleRightPanel.x + 32, rectangleRightPanel.y + 140))
+
+
     elif activeTab == "Мои Заметки":
         drawPanel(displayScreen, rectangleCentral)
         headerSurface = fontTitle.render("Недавние записи", True, colorTextWhite)
@@ -466,7 +486,7 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
         countRendered = 0
         for noteItem in listAllNotes:
             if positionY > rectangleCentral.bottom - 70:
-                break  # Прерываем, если не помещается на экран
+                break
 
             cardRectangle = pygame.Rect(rectangleCentral.x + 40, positionY, rectangleCentral.w - 80, 48)
             drawRoundedRect(displayScreen, colorBackgroundCell, cardRectangle, 12)
@@ -488,12 +508,8 @@ def drawApplication(currentYear, currentMonth, dateToday, selectedDay, mousePosi
 
     return buttonLeft, buttonRight, listDayButtons, rectangleInput, listDeleteButtons, listMenuRectangles
 
-
-# ==========================================
-# 5. ОСНОВНОЙ ЦИКЛ ПРИЛОЖЕНИЯ
-# ==========================================
-
 def mainApplication():
+    global displayScreen
     timeNow = datetime.datetime.now()
     currentYear, currentMonth = timeNow.year, timeNow.month
     selectedDay = timeNow.day
@@ -501,6 +517,7 @@ def mainApplication():
     inputActive = False
     userText = ""
     activeTab = "Календарь"
+    isFullscreen = False
 
     isRunning = True
     while isRunning:
@@ -572,7 +589,14 @@ def mainApplication():
                                 inputActive = False
 
             elif eventObject.type == pygame.KEYDOWN:
-                if eventObject.key == pygame.K_ESCAPE:
+                if eventObject.key == pygame.K_F11:
+                    isFullscreen = not isFullscreen
+                    if isFullscreen:
+                        displayScreen = pygame.display.set_mode((windowWidth, windowHeight), pygame.FULLSCREEN)
+                    else:
+                        displayScreen = pygame.display.set_mode((windowWidth, windowHeight))
+
+                elif eventObject.key == pygame.K_ESCAPE:
                     if inputActive:
                         inputActive = False
                     elif selectedDay:
